@@ -43,7 +43,7 @@ class LinebotController < ApplicationController
               push =
                 "明日の天気ですね。\n明日は雨が降らない予定です！\nまた明日の朝の最新の天気予報で雨が降りそうだったらお伝えいたします。"
             end
-          when /.*(明後日|あさって).*/
+          when /.*(明後日|あさって|二日後|2日後|２日後).*/
             per06to12 = doc.elements[xpath + 'info[3]/rainfallchance/period[2]l'].text
             per12to18 = doc.elements[xpath + 'info[3]/rainfallchance/period[3]l'].text
             per18to24 = doc.elements[xpath + 'info[3]/rainfallchance/period[4]l'].text
@@ -53,6 +53,17 @@ class LinebotController < ApplicationController
             else
               push =
                 "明後日の天気ですね？\n明後日は雨は降らない予定です。\nまた当日の朝の最新の天気予報で雨が降りそうだった場合お伝えいたします。！"
+            end
+          when /.*(明々後日|しあさって|三日後|3日後|３日後).*/
+            per06to12 = doc.elements[xpath + 'info[4]/rainfallchance/period[2]l'].text
+            per12to18 = doc.elements[xpath + 'info[4]/rainfallchance/period[3]l'].text
+            per18to24 = doc.elements[xpath + 'info[4]/rainfallchance/period[4]l'].text
+            if per06to12.to_i >= min_per || per12to18.to_i >= min_per || per18to24.to_i >= min_per
+              push =
+                "明々後日の天気ですか。。。\nまだまだ諦めるには早いですが\n明々後日は雨が降りそうです。\n当日の朝に雨が降りそうだった場合、またお伝えいたします。"
+            else
+              push =
+                "明々後日の天気ですね？\n明々後日は雨は降らない予定です。\nまた当日の朝の最新の天気予報で雨が降りそうだった場合お伝えいたします。！"
             end
           when /.*(こんにちは|こんばんは|初めまして|はじめまして|おはよう).*/
             push =
