@@ -48,6 +48,7 @@ namespace :scheduler do
       }
       response = client.multicast(user_ids, message)
     end
-    "OK"
+    # "OK"
+    head :ok
   end
 end
